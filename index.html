@@ -1,0 +1,95 @@
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <select id="zoom-level" onchange="setZoom()" value="zoom-100">
+        <option value="zoom-050">50</option>
+        <option value="zoom-060">60</option>
+        <option value="zoom-070">70</option>
+        <option value="zoom-080">80</option>
+        <option value="zoom-090">90</option>
+        <option value="zoom-100" selected="selected">100</option>
+        <option value="zoom-110">110</option>
+        <option value="zoom-120">120</option>
+        <option value="zoom-130">130</option>
+        <option value="zoom-140">140</option>
+        <option value="zoom-150">150</option>
+        <option value="zoom-160">160</option>
+        <option value="zoom-170">170</option>
+        <option value="zoom-180">180</option>
+        <option value="zoom-190">190</option>
+        <option value="zoom-200">200</option>
+    </select>
+    <div id="zoom-area" class="zoom-area">
+        <div id="zoom-contents" class="zoom-contents zoom-100">
+            <div style="width:100px;height:100px;position:absolute;top:10px;left:10px;background-color:#aaaaaa;">Element1</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var tm = null;
+        function setZoom(zoom){
+                if(tm){
+                    clearTimeout(tm);
+                }
+                tm = setTimeout(function(){
+                    var area = document.getElementById("zoom-contents");
+                    if(!zoom)
+                    {
+                        zoom = document.getElementById("zoom-level").value;
+                    }else
+                    {
+                        document.getElementById("zoom-level").value = zoom;
+                    }
+                    area.setAttribute("class","zoom-contents " + zoom);
+                },70);
+            }
+        document.getElementById("zoom-area").addEventListener("mousewheel",function(e){
+               var levelEl = document.getElementById("zoom-level");
+               var level = levelEl.value;
+               var levelNum = parseInt(level.slice(-3));
+            
+           if(e.wheelDelta > 0)
+           {
+               if(levelNum < 200){
+                   levelNum += 10;
+                   var zoom;
+                   if(levelNum >= 100)
+                   {
+                       zoom = "zoom-" + levelNum.toString(); 
+                   }
+                   else
+                   {
+                       zoom = "zoom-0" + levelNum.toString(); 
+                   }
+                   document.getElementById("zoom-level").value = zoom;
+                   setZoom(zoom);
+               }
+           } 
+           else
+           {
+               if(levelNum > 50){
+                   levelNum -= 10;
+                  if(levelNum >= 100)
+                   {
+                       zoom = "zoom-" + levelNum.toString(); 
+                   }
+                   else
+                   {
+                       zoom = "zoom-0" + levelNum.toString(); 
+                   }
+                   document.getElementById("zoom-level").value = zoom;
+                   setZoom(zoom);
+               }
+           }
+            
+        });
+    </script>
+
+
+
+</body>
+
+</html>
